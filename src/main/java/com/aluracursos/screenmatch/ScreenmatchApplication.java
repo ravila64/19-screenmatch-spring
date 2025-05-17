@@ -1,5 +1,6 @@
 package com.aluracursos.screenmatch;
 
+import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
@@ -45,6 +46,11 @@ public class ScreenmatchApplication implements CommandLineRunner {
          ConvierteDatos convierteDatos = new ConvierteDatos();
          var datos = convierteDatos.obtenerDatos(json, DatosSerie.class);
          System.out.println("datos "+datos);
+         // consumo a la api de episodios
+         url = "https://www.omdbapi.com/?t="+busqueda+"&Season=1&episode=1&apikey="+apiPeliculas;
+         json = consumoApi.obtenerDatos(url);
+         var datosE = convierteDatos.obtenerDatos(json, DatosEpisodio.class);
+         System.out.println("datos episodio "+datosE);
       }
       ; // wend
 
