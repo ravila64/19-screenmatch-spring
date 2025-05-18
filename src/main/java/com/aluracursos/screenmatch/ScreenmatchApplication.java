@@ -2,12 +2,15 @@ package com.aluracursos.screenmatch;
 
 import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
+import com.aluracursos.screenmatch.model.DatosTemporada;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -44,15 +47,28 @@ public class ScreenmatchApplication implements CommandLineRunner {
          json = consumoApi.obtenerDatos(url);
          System.out.println("json "+ json);
          ConvierteDatos convierteDatos = new ConvierteDatos();
-         var datos = convierteDatos.obtenerDatos(json, DatosSerie.class);
-         System.out.println("datos "+datos);
+         var series = convierteDatos.obtenerDatos(json, DatosSerie.class);
+         System.out.println("datos "+series);
          // consumo a la api de episodios
          url = "https://www.omdbapi.com/?t="+busqueda+"&Season=1&episode=1&apikey="+apiPeliculas;
          json = consumoApi.obtenerDatos(url);
-         var datosE = convierteDatos.obtenerDatos(json, DatosEpisodio.class);
-         System.out.println("datos episodio "+datosE);
-      }
-      ; // wend
-
+         var episodios = convierteDatos.obtenerDatos(json, DatosEpisodio.class);
+         System.out.println("datos episodio "+episodios);
+         // Temporadas
+         List<DatosTemporada> datosTemporadas = new ArrayList<>();
+         Integer totalTemp= series.totalTemporadas();
+         System.out.println("total temporadas "+totalTemp);
+         if (totalTemp!=null){
+            for (int i = 1; i <= totalTemp; i++) {
+               url = "https://www.omdbapi.com/?t=" + busqueda + "&Season=" + i + "&apikey=" + apiPeliculas;
+               json = consumoApi.obtenerDatos(url);
+               var temporada = convierteDatos.obtenerDatos(json, DatosTemporada.class);
+               datosTemporadas.add(temporada);
+            }
+            datosTemporadas.forEach(System.out::println);
+         }else{
+            System.out.println("Esta serie no tiene temporadas ");
+         }
+      } // wend
    }
 }
