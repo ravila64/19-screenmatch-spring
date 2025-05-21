@@ -1,0 +1,24 @@
+Para trabajar con fechas, podemos importar el paquete que contiene varias clases de fecha y hora, el java.time. Esta API de fechas fue introducida en Java 8 con la idea de resolver los problemas de las antiguas clases y facilitar el uso de fechas en Java. ¿Vamos a conocer algunas funcionalidades?
+
+Patrones
+
+Los formatos de fecha y hora se especifican mediante cadenas estándar de fecha y hora. La siguiente tabla muestra la sintaxis estándar que debe utilizarse para el patrón de formato:
+
+Letra	Componente fecha/hora	Ejemplo
+G	Designador de era	DC
+y	Año	2010; 10
+M	Mes en el año	Julio; jul; 10
+w	Semana en el año	27
+W	Semana en el mes	2
+D	Día en el año	189
+d	Día en el mes	10
+F	Día de la semana en el mes	2
+E	Día de la semana	Martes; ter
+a	Marcador de am/pm	PM
+H	Hora en el día (0-23)	0
+k	Hora en el día (1-24)	24
+K	Hora en am/pm (0-11)	0
+h	Hora en am/pm (1-12)	12
+m	Minuto en la hora	30
+s	Segundo en el minuto	55
+S	Fracción de un segundo	978
