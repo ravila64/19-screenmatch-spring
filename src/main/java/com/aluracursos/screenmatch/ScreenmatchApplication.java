@@ -15,10 +15,10 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
    @Override
    public void run(String... args) throws Exception {
-//      MainMenu principal = new MainMenu();
-//      principal.muestraMenu();
-      StreamsExample streams = new StreamsExample();
-      streams.muestraEjemplo();
+      MainMenu principal = new MainMenu();
+      principal.muestraMenu();
+//      StreamsExample streams = new StreamsExample();
+//      streams.muestraEjemplo();
 
    }
 }
