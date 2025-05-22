@@ -9,10 +9,7 @@ import com.aluracursos.screenmatch.service.ConvierteDatos;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainMenu {
@@ -66,12 +63,24 @@ public class MainMenu {
       //.toList();  // cuando quiero inmutable, no deja agregar
 
       // top 5 episodios, reversed mayor a menor calificación
-      System.out.println("Top 5 episodios");
-      datosEpisodios.stream()
-            .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
-            .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
-            .limit(5)
-            .forEach(System.out::println);
+//      System.out.println("Top 5 episodios");
+//      datosEpisodios.stream()
+//            .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
+//            .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
+//            .limit(5)
+//            .forEach(System.out::println);
+
+      // top 5 episodios segun cap. 4 del tema, manejando el .peek()
+//      System.out.println("Top 5 episodios con peek-Ojeada");
+//      datosEpisodios.stream()
+//            .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
+//            .peek(e -> System.out.println("Primer filtro [N/A] " + e))
+//            .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
+//            .peek(e -> System.out.println("Segundo filtro ordenacion [M>m] " + e))
+//            .map(e -> e.titulo().toUpperCase())
+//            .peek(e -> System.out.println("Tercer filtro mayusculas (n>M) " + e))
+//            .limit(5)
+//            .forEach(System.out::println);
 
       // Convirtiendo los datos a una lista del tipo Episodio
       List<Episodio> episodios = temporadas.stream()
@@ -79,20 +88,33 @@ public class MainMenu {
                   .map(d -> new Episodio(t.numero(), d)))
             .collect(Collectors.toList());
 
-      episodios.forEach(System.out::println);
+//      episodios.forEach(System.out::println);
 
       // busaueda de episodios a partir de un año especifico
       System.out.println("Digite año a partir del cual deseas ver episodios :");
       var fecha = teclado.nextInt();
-      LocalDate fechaBusqueda = LocalDate.of(fecha,1,1);
-      DateTimeFormatter dtf= DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      episodios.stream()
-            .filter(e->e.getFechaLanzamiento() != null &&
-                  (e.getFechaLanzamiento().isAfter(fechaBusqueda) || e.getFechaLanzamiento().isEqual(fechaBusqueda)))
-            .forEach(e -> System.out.println(
-                  "Temporada :"+e.getTemporada()+
-                        " Episodio :"+e.getTitulo()+
-                        " Fecha lanzamiento :"+e.getFechaLanzamiento().format(dtf)
-            ));
+      LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//      episodios.stream()
+//            .filter(e->e.getFechaLanzamiento() != null &&
+//                  (e.getFechaLanzamiento().isAfter(fechaBusqueda) || e.getFechaLanzamiento().isEqual(fechaBusqueda)))
+//            .forEach(e -> System.out.println(
+//                  "Temporada :"+e.getTemporada()+
+//                        " Episodio :"+e.getTitulo()+
+//                        " Fecha lanzamiento :"+e.getFechaLanzamiento().format(dtf)
+//            ));
+     // busca episodios por pedazo del titulo
+      System.out.println("Digite titulo episodio ");
+      var pedazoEpisodio = teclado.nextLine();
+      teclado.next();
+      Optional<Episodio> episodioEncontrado = episodios.stream()
+            .filter(e -> e.getTitulo().contains(pedazoEpisodio))
+            .findFirst();
+     // episodioEncontrado.ifPresent(episodio -> System.out.println("Episodio encontrado: \n" + episodio));
+      if(episodioEncontrado.isPresent()){
+         System.out.println("Episodio encontrado: \n" + episodioEncontrado.get());
+      }else{
+         System.out.println("Episodio no encontrado !!!");
+      }
    }
 }

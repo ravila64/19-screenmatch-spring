@@ -1,4 +1,4 @@
-package com.aluracursos.screenmatch.TypeGenerics;
+package com.aluracursos.screenmatch.typegenerics;
 
 public class Caja<T> {
    private T contenido;

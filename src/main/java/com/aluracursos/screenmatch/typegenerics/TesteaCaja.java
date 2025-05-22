@@ -1,4 +1,4 @@
-package com.aluracursos.screenmatch.TypeGenerics;
+package com.aluracursos.screenmatch.typegenerics;
 
 public class TesteaCaja {
    public static void main(String[] args) {
