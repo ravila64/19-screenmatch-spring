@@ -45,16 +45,16 @@ public class MainMenu {
       temporadas.forEach(System.out::println);
 
       // mostrar solo el titulo de los eposodios para las temporadas
-      for (int i = 0; i < serie.totalTemporadas(); i++) {
-         List<DatosEpisodio> episodios = temporadas.get(i).episodios();
-         System.out.println("**Temporada** " + (i + 1) + " Episodios:" + episodios.size());
-         for (int j = 0; j < episodios.size(); j++) {
-            System.out.println("Titulo episodio :" + (j + 1) + " : " + episodios.get(j).titulo());
-         }
-      }
+//      for (int i = 0; i < serie.totalTemporadas(); i++) {
+//         List<DatosEpisodio> episodios = temporadas.get(i).episodios();
+//         System.out.println("**Temporada** " + (i + 1) + " Episodios:" + episodios.size());
+//         for (int j = 0; j < episodios.size(); j++) {
+//            System.out.println("Titulo episodio :" + (j + 1) + " : " + episodios.get(j).titulo());
+//         }
+//      }
       // funciones lambda
       // lista todos los episodios, con el  numero,titulo, fecha lanzamiento, de todas las temporadas
-      temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println((e.mumEpisodio() + 1) + " " + e.titulo() + " " + e.fechaLanzamiento())));
+//      temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println((e.mumEpisodio() + 1) + " " + e.titulo() + " " + e.fechaLanzamiento())));
 
       // convertir todas las imformaciones a lista lista tipo DatosEpisodio
       List<DatosEpisodio> datosEpisodios = temporadas.stream()
@@ -91,10 +91,10 @@ public class MainMenu {
 //      episodios.forEach(System.out::println);
 
       // busaueda de episodios a partir de un año especifico
-      System.out.println("Digite año a partir del cual deseas ver episodios :");
-      var fecha = teclado.nextInt();
-      LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
-      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//      System.out.println("Digite año a partir del cual deseas ver episodios :");
+//      var fecha = teclado.nextInt();
+//      LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+//      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //      episodios.stream()
 //            .filter(e->e.getFechaLanzamiento() != null &&
 //                  (e.getFechaLanzamiento().isAfter(fechaBusqueda) || e.getFechaLanzamiento().isEqual(fechaBusqueda)))
@@ -103,18 +103,33 @@ public class MainMenu {
 //                        " Episodio :"+e.getTitulo()+
 //                        " Fecha lanzamiento :"+e.getFechaLanzamiento().format(dtf)
 //            ));
-     // busca episodios por pedazo del titulo
-      System.out.println("Digite titulo episodio ");
-      var pedazoEpisodio = teclado.nextLine();
-      teclado.next();
-      Optional<Episodio> episodioEncontrado = episodios.stream()
-            .filter(e -> e.getTitulo().contains(pedazoEpisodio))
-            .findFirst();
-     // episodioEncontrado.ifPresent(episodio -> System.out.println("Episodio encontrado: \n" + episodio));
-      if(episodioEncontrado.isPresent()){
-         System.out.println("Episodio encontrado: \n" + episodioEncontrado.get());
-      }else{
-         System.out.println("Episodio no encontrado !!!");
+//     // 05 busca episodios por pedazo del titulo
+//      System.out.println("Digite titulo episodio ");
+//      var pedazoEpisodio = teclado.nextLine();
+//      Optional<Episodio> episodioEncontrado = episodios.stream()
+//            .filter(e -> e.getTitulo().toUpperCase().contains(pedazoEpisodio.toUpperCase()))
+//            .findFirst();  // busca la primera aparicion segun condicion del filtro
+//     // episodioEncontrado.ifPresent(episodio -> System.out.println("Episodio encontrado: \n" + episodio));
+//      if(episodioEncontrado.isPresent()){
+//         System.out.println("Episodio encontrado: \n" + episodioEncontrado.get());
+//      }else{
+//         System.out.println("Episodio no encontrado !!!");
+//      }
+      // 08 Creando un mapa de datos x temporada
+      // hace una promedio de evaluacion por temporada, agrupandola
+      //  Map integer=clave Double=valor
+         Map<Integer, Double> evaluacionesTemporada = episodios.stream()
+               .filter(e->e.getEvaluacion()>0.0)
+               .collect(Collectors.groupingBy(Episodio::getTemporada,
+                     Collectors.averagingDouble(Episodio::getEvaluacion)));
+      // aqui tambien imprime el mapa sin formateo
+      System.out.println(evaluacionesTemporada);
+      // imprimir el map (clave, valor)
+      for (Map.Entry<Integer, Double> entry : evaluacionesTemporada.entrySet()) {
+         Integer temporada = entry.getKey(); // Obtiene la clave (número de temporada)
+         Double evaluacionPromedio = entry.getValue(); // Obtiene el valor (promedio de evaluación)
+         System.out.println("Temporada: " + temporada + ", Evaluación Promedio: " + evaluacionPromedio);
       }
    }
 }
+//

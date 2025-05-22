@@ -4,5 +4,6 @@ superman
 el señor de los anillos
 james bond
 star wars
+euphoria
 nota: alguna no tiene serie
 
