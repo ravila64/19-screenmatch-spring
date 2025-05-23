@@ -130,6 +130,18 @@ public class MainMenu {
          Double evaluacionPromedio = entry.getValue(); // Obtiene el valor (promedio de evaluación)
          System.out.println("Temporada: " + temporada + ", Evaluación Promedio: " + evaluacionPromedio);
       }
+      // recopilando estadisticas con DoubleSummaryStatistics and IntSummaryStatistics
+      // Double. Tiene métodos como getSum(), getAverage(), getMin(), getMax() y getCount()
+      // Int. Teien metodso como getSum(), getAverage(), getMin(), getMax() y getCount()
+
+      DoubleSummaryStatistics est = episodios.stream()
+            .filter(e->e.getEvaluacion() > 0.0)
+            .collect(Collectors.summarizingDouble(Episodio::getEvaluacion)) ;
+      System.out.println("Estadisticas "+est);  //ídem est.toString()
+      System.out.println("Media evaluaciohes "+est.getAverage());
+      System.out.println("Episodio mejor evaluado "+est.getMax());
+      System.out.println("Episodio peor evaluado "+est.getMin());
+      System.out.println("Cantidad " + est.getCount());
    }
 }
 //
